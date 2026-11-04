@@ -75,3 +75,26 @@ revisión; después entra como `docente.demo` (o como administrador), revísala 
 
 > **Importante:** borra estos usuarios (en `/admin/users/`, como administrador) o cambia su contraseña
 > antes de publicar el blog en internet. Contraseñas conocidas en un servidor público son un riesgo.
+## Cómo he desplegado el proyecto
+
+Estos son los pasos que he seguido para poner en marcha el Miniblog del IES Trassierra en mi equipo con Debian
+
+### Comandos utilizados
+
+sudo apt install git openssh-client php-cli php-sqlite3 php-xml php-mbstring php-intl php-curl unzip composer
+ssh-keygen -t ed25519 -C "lwahsan293@g.educaand.es"
+git clone git@github.com:laurawahab/miniblog.git
+cd miniblog
+composer install
+php bin/console create-schema
+php bin/console app:create-user admin "Administrador"
+php -S localhost:8000 -t public
+git remote add upstream https://github.com/mpgprofe/miniblog.git
+git fetch upstream
+git merge upstream/master
+
+### Problemas que me han surgido
+
+-Al clonar me daba 'Permission denied (publickey)': la clave SSH que tenía en GitHub no era la de mi ordenador. Lo solucioné subiendo mi clave pública actual.
+-Al abrir el pull request, GitHub ponía por defecto el repositorio del profesor, he tenido que cambiarlo a mi fork
+
